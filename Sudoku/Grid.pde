@@ -4,6 +4,7 @@ class Grid {
 
   Grid(int size, int _diff) {
     cells = new Cell[size][size];
+    diff = _diff;
   }
 
   void render() {
@@ -30,16 +31,16 @@ class Grid {
     
   }
   
-  void assignCell(int x, int y) { //assigns a random number to the given cell. Cheks if the cell is available recursively
-    if(cells[x][y].assignedValue==0) {
+  void assignCell(int x, int y) { //assigns a random number to the given cell. Checks if the cell is available recursively
+    if(cells[x][y].ans==0) { //if position is available
       int num = (int)random(1,10);
-      if(isNumberLegal(num, new PVector(x,y))) {
+      if(isNumberLegal(num, new PVector(x,y))) { //if number is legal according to sudoku rules
         cells[x][y].ans = num;
       } else {
-        assignCell(x, y);
+        assignCell(x, y); //if number not legal then try again with a new number
       }
     } else {
-      assignCell((int)random(0,9), (int)random(0,9));
+      assignCell((int)random(0,9), (int)random(0,9)); //if space not available then try with new number
     }
   }
   
