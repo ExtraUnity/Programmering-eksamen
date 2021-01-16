@@ -44,7 +44,7 @@ class Grid {
     }
   }
   
-  boolean isNumberLegal(int num, PVector pos) { //checks if number breaks the rules
+  boolean isNumberLegal(int num, PVector pos) { //checks if number breaks the rules //<>//
     for(int i = 0; i<cells.length; i++) { //check row
       if(i!=pos.x) {
           if(cells[i][(int)pos.y].assignedValue == num) {
