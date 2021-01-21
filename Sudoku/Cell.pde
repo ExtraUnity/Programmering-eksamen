@@ -10,8 +10,8 @@ class Cell {
   }
   
   void render() {
-    fill(255);
-    rect(pos.x,pos.y,size,size);
+    //fill(255);
+    //rect(pos.x,pos.y,size,size);
     if(assignedValue != 0){ //only display text if value is not 0
       fill(0);
       textSize(size/2);
