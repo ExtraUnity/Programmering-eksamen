@@ -99,7 +99,7 @@ class Grid { //<>//
       return solve(row, col + 1); //go to next cell
     }
     ArrayList<Integer> nums = new ArrayList();
-    for (int i = 1; i < 10; i++) { //CHANGE TO RANDOM NUMBER INSTEAD. THIS RESULTS IN SAME SOLUTION EVERYTIME
+    for (int i = 1; i < 10; i++) {
       nums.add(i);
     }
     while (nums.size()>0) {
