@@ -5,11 +5,12 @@ void setup() {
   grid.generatePuzzle();
   background = loadImage("data/Grid.png");
   background.resize(700, 700);
-  if (grid.solve(0, 0)) {
+  if (grid.solve(0, 0,0,0, 0)) {
     println("Success");
   } else {
     println("No Solution exists");
   }
+  grid.makePuzzle(0);
 }
 
 
