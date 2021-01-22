@@ -3,6 +3,7 @@ class Cell {
   int ans;
   int assignedValue;
   int size;
+  boolean selected;
   
   Cell(PVector _pos, int _size) {
     pos = _pos;
@@ -12,6 +13,9 @@ class Cell {
   void render() {
     //fill(255);
     //rect(pos.x,pos.y,size,size);
+    if(selected){
+    rect(pos.x,pos.y,size,size);
+    }
     if(assignedValue != 0){ //only display text if value is not 0
       fill(0);
       textSize(size/2);

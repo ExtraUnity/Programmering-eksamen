@@ -84,8 +84,6 @@ class Grid { //<>//
   }
 
   boolean solve(int row, int col) { //solves the grid
-
-
     if (row == cells.length - 1 && col == cells.length) { //Last cell has been checked
       return true;
     }
