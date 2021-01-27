@@ -18,7 +18,7 @@ class Grid { //<>//
   void generatePuzzle() {//initialize cells
     for (int i = 0; i<cells.length; i++) {
       for (int j = 0; j<cells.length; j++) {
-        cells[i][j] = new Cell(new PVector(i*(width-20)/cells.length+10, j*(height-20)/cells.length+10), width/cells.length);
+        cells[i][j] = new Cell(new PVector(i*(background.width-20)/cells.length+10, j*(background.height-20)/cells.length+10), background.width/cells.length);
       }
     }
 
@@ -138,9 +138,8 @@ class Grid { //<>//
         cells[y][x].ans = cellNumber;
         cells[y][x].assignedValue = cellNumber;
         if (count!=20) { //20 non-unique guesses
-             makePuzzle(count);
+          makePuzzle(count);
         }
-        
       }
     } else {
       makePuzzle(count);
@@ -164,11 +163,11 @@ class Grid { //<>//
 
     return true;
   }
-  
+
   boolean checkSolution() { //return false if answer does not correlate with assigned value
-    for(Cell[] cs : cells) {
-      for(Cell c : cs) {
-        if(c.ans != c.assignedValue) {
+    for (Cell[] cs : cells) {
+      for (Cell c : cs) {
+        if (c.ans != c.assignedValue) {
           return false;
         }
       }
