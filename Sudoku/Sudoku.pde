@@ -40,11 +40,11 @@ void keyPressed() {
               }
             }
           }
-<<<<<<< HEAD
+
         }
         if (c.selected==2) {
           c.notes.append(Integer.parseInt(str(key)));
-=======
+
           if (grid.filled) {
             if (grid.checkSolution()) { //verify the solution
               infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
@@ -53,15 +53,8 @@ void keyPressed() {
               println("Wrong solution");
             }
           }
->>>>>>> f579985a80fd75ad98fd9daf587e3e583515d65b
+
         }
-      }
-    }
-    if (grid.filled) {
-      if (grid.checkSolution()) {//verify the solution
-        println("Solved correctly");
-      } else {
-        println("Wrong solution");
       }
     }
   }
