@@ -26,6 +26,7 @@ class Cell {
       text(assignedValue, pos.x+size/2, pos.y+size/2);
     }else{
       for(int i: notes){
+        fill(0);
         textSize(size/4);
         text(i,pos.x+size*0.25+(i-1)%3*size*0.25,pos.y+size*0.25+(i-1)/3*size*0.25);
       }

@@ -1,4 +1,4 @@
-class Grid { //<>//
+class Grid { //<>// //<>//
   Cell[][] cells;
   int diff;
   boolean filled;
@@ -71,8 +71,6 @@ class Grid { //<>//
         }
       }
     }
-
-
     return true; //number is legal
   }
 
