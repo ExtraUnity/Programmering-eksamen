@@ -1,38 +1,37 @@
 Grid grid = new Grid(9, 9);
 PImage background;
+Info infoTable;
 void setup() {
-  size(700, 700);
+  size(1000, 700);
+    background = loadImage("data/Grid.png");
+  background.resize((int) (width-width*0.3), height);
   grid.generatePuzzle();
-  background = loadImage("data/Grid.png");
-  background.resize(width, height);
+
   if (grid.solve(0, 0, 0, 0, 0)) {
     println("Success");
   } else {
     println("No Solution exists");
   }
   grid.makePuzzle(0);
+  infoTable = new Info();
+  infoTable.time = millis();
 }
 
 
 void draw() {
+  background(188);
   image(background, 0, 0);
   grid.render();
+  infoTable.render();
 }
 
 void keyPressed() {
-  /*grid = new Grid(9,9);
-   grid.generatePuzzle();
-   if (grid.solve(0, 0)) {
-   println("Success");
-   }  else {
-   System.out.println("No Solution exists");
-   }*/
   if (tryParse(key)) {
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
         if (c.selected) {
           c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
-          
+
           grid.filled = true;
           for (Cell[] row : grid.cells) { //check if grid is filled with numbers
             for (Cell cell : row) {
@@ -43,6 +42,7 @@ void keyPressed() {
           }
           if (grid.filled) {
             if (grid.checkSolution()) { //verify the solution
+              infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
               println("Solved correctly");
             } else {
               println("Wrong solution");
