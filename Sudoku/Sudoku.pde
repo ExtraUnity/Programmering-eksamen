@@ -3,7 +3,7 @@ PImage background;
 Info infoTable;
 void setup() {
   size(1000, 700);
-    background = loadImage("data/Grid.png");
+  background = loadImage("data/Grid.png");
   background.resize((int) (width-width*0.3), height);
   grid.generatePuzzle();
 
@@ -42,8 +42,6 @@ void keyPressed() {
           }
 
         }
-        if (c.selected==2) {
-          c.notes.append(Integer.parseInt(str(key)));
 
           if (grid.filled) {
             if (grid.checkSolution()) { //verify the solution
@@ -53,7 +51,13 @@ void keyPressed() {
               println("Wrong solution");
             }
           }
-
+          
+        if (c.selected==2) {
+          if (c.notes.hasValue(Integer.parseInt(str(key)))) {
+            c.notes.removeValue(Integer.parseInt(str(key)));
+          } else {
+            c.notes.append(Integer.parseInt(str(key)));
+          }
         }
       }
     }
