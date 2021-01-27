@@ -4,7 +4,7 @@ void setup() {
   size(700, 700);
   grid.generatePuzzle();
   background = loadImage("data/Grid.png");
-  background.resize(700, 700);
+  background.resize(width, height);
   if (grid.solve(0, 0, 0, 0, 0)) {
     println("Success");
   } else {
