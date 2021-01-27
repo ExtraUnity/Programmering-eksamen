@@ -1,4 +1,4 @@
-class Grid { //<>// //<>//
+class Grid { //<>//
   Cell[][] cells;
   int diff;
   boolean filled;
@@ -22,14 +22,7 @@ class Grid { //<>// //<>//
       }
     }
 
-    //for(int i = 0; i<diff; i++) { //gives values to each of the starthints
-    //  int x = (int)random(0,9);
-    //  int y = (int)random(0,9);
-    //  assignCell(x,y);
-
-    //}
-
-    for (int i = 0; i<3; i++) {
+    for (int i = 0; i<3; i++) { //The solver needs something to solve
       for (int j = 0; j<3; j++) {
         assignCell(i, j);
       }
@@ -84,7 +77,7 @@ class Grid { //<>// //<>//
   }
 
 
-  boolean solve(int row, int col, int x, int y, int num) { //solves the grid
+  boolean solve(int row, int col, int x, int y, int num) { //solves the grid recursively using simple backtracking
     if (row == cells.length - 1 && col == cells.length) { //Last cell has been checked
       return true;
     }
@@ -98,7 +91,7 @@ class Grid { //<>// //<>//
       return solve(row, col + 1, x, y, num); //go to next cell
     }
     ArrayList<Integer> nums = new ArrayList();
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) { //the guessss the computer can make for a cell
       nums.add(i);
     }
 
@@ -110,7 +103,7 @@ class Grid { //<>// //<>//
 
     try {
       num2 = 0;
-      nums.remove(num2);
+      nums.remove(num2); //try to remove 0 from the list. If it catches, then it was already removed before
     } 
     catch(Exception e) {
     }
@@ -127,12 +120,12 @@ class Grid { //<>// //<>//
       }
       cells[row][col].assignedValue = 0;
       cells[row][col].ans = 0; //Change back to zero - solution wasn't possible
-      nums.remove(i);
+      nums.remove(i); //this number did not work, so we remove it
     }
     return false; //no solutions found
   }
 
-  void makePuzzle(int count) {
+  void makePuzzle(int count) { //Recursively removes cells from grid
     int x = (int) random(0, 9); //select random cell
     int y = (int) random(0, 9);
     if (cells[y][x].assignedValue != 0) { //if not already removed
@@ -154,7 +147,7 @@ class Grid { //<>// //<>//
     }
   }
 
-  boolean checkUnique(int x, int y, int num) {
+  boolean checkUnique(int x, int y, int num) { //check if there is only one solution to the grid
     Grid temp = new Grid(9, 9); //new temporary grid, so original grid doesn't get changed
 
     for (int i = 0; i<cells.length; i++) { //copy data from original grid to temp grid
@@ -172,7 +165,7 @@ class Grid { //<>// //<>//
     return true;
   }
   
-  boolean checkSolution() {
+  boolean checkSolution() { //return false if answer does not correlate with assigned value
     for(Cell[] cs : cells) {
       for(Cell c : cs) {
         if(c.ans != c.assignedValue) {

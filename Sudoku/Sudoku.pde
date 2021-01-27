@@ -32,8 +32,9 @@ void keyPressed() {
       for (Cell c : cs) {
         if (c.selected==1) {
           c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
+          
           grid.filled = true;
-          for (Cell[] row : grid.cells) {
+          for (Cell[] row : grid.cells) { //check if grid is filled with numbers
             for (Cell cell : row) {
               if (cell.assignedValue == 0) {
                 grid.filled = false;
@@ -43,12 +44,11 @@ void keyPressed() {
         }
         if (c.selected==2) {
           c.notes.append(Integer.parseInt(str(key)));
-          println(c.notes);
         }
       }
     }
     if (grid.filled) {
-      if (grid.checkSolution()) {
+      if (grid.checkSolution()) {//verify the solution
         println("Solved correctly");
       } else {
         println("Wrong solution");
