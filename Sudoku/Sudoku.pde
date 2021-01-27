@@ -5,7 +5,7 @@ void setup() {
   grid.generatePuzzle();
   background = loadImage("data/Grid.png");
   background.resize(700, 700);
-  if (grid.solve(0, 0,0,0, 0)) {
+  if (grid.solve(0, 0, 0, 0, 0)) {
     println("Success");
   } else {
     println("No Solution exists");
@@ -30,8 +30,23 @@ void keyPressed() {
   if (tryParse(key)) {
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
-        if (c.selected){
+        if (c.selected) {
           c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
+          grid.filled = true;
+          for (Cell[] row : grid.cells) {
+            for (Cell cell : row) {
+              if (cell.assignedValue == 0) {
+                grid.filled = false;
+              }
+            }
+          }
+          if (grid.filled) {
+            if (grid.checkSolution()) {
+              println("Solved correctly");
+            } else {
+              println("Wrong solution");
+            }
+          }
         }
       }
     }

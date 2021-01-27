@@ -1,7 +1,7 @@
 class Grid { //<>// //<>//
   Cell[][] cells;
   int diff;
-
+  boolean filled;
   Grid(int size, int _diff) {
     cells = new Cell[size][size];
     diff = _diff;
@@ -37,7 +37,7 @@ class Grid { //<>// //<>//
   }
 
   void assignCell(int x, int y) { //assigns a random number to the given cell. Checks if the cell is available recursively
-    if (cells[x][y].ans==0) { //if position is available
+    if (cells[x][y].assignedValue==0) { //if position is available
       int num = (int)random(1, 10);
       if (isNumberLegal(num, new PVector(x, y))) { //if number is legal according to sudoku rules
         cells[x][y].ans = num;
@@ -53,7 +53,7 @@ class Grid { //<>// //<>//
   boolean isNumberLegal(int num, PVector pos) { //checks if number breaks the rules
     for (int i = 0; i<cells.length; i++) { //check row
       if (i!=pos.x) {
-        if (cells[i][(int)pos.y].ans == num) {
+        if (cells[i][(int)pos.y].assignedValue == num) {
           return false;
         }
       }
@@ -61,7 +61,7 @@ class Grid { //<>// //<>//
 
     for (int i = 0; i<cells.length; i++) { //check column
       if (i!=pos.y) {
-        if (cells[(int)pos.x][i].ans == num) {
+        if (cells[(int)pos.x][i].assignedValue == num) {
           return false;
         }
       }
@@ -72,7 +72,7 @@ class Grid { //<>// //<>//
     for (int i = startX; i<startX + 3; i++) { //check 3x3 grid
       for (int j = startY; j<startY + 3; j++) {
         if (!(i == pos.x && j==pos.y)) {
-          if (cells[i][j].ans == num) {
+          if (cells[i][j].assignedValue == num) {
             return false;
           }
         }
@@ -94,7 +94,7 @@ class Grid { //<>// //<>//
       col = 0;
     }
 
-    if (cells[row][col].ans != 0) { //Already solved - the cell was one of the given hints
+    if (cells[row][col].assignedValue != 0) { //Already solved - the cell was one of the given hints
       return solve(row, col + 1, x, y, num); //go to next cell
     }
     ArrayList<Integer> nums = new ArrayList();
@@ -125,7 +125,7 @@ class Grid { //<>// //<>//
           return true;
         }
       }
-
+      cells[row][col].assignedValue = 0;
       cells[row][col].ans = 0; //Change back to zero - solution wasn't possible
       nums.remove(i);
     }
@@ -135,15 +135,14 @@ class Grid { //<>// //<>//
   void makePuzzle(int count) {
     int x = (int) random(0, 9); //select random cell
     int y = (int) random(0, 9);
-    if (cells[y][x].ans != 0) { //if not already removed
+    if (cells[y][x].assignedValue != 0) { //if not already removed
       int cellNumber = cells[y][x].ans; //save cell number before removing
-      cells[y][x].ans = 0;
       cells[y][x].assignedValue = 0;
       if (checkUnique(x, y, cellNumber)) {
         makePuzzle(count);//remove another cell
       } else {
         count++;
-        cells[y][x].ans = cellNumber; //put number back if not unique
+        cells[y][x].ans = cellNumber;
         cells[y][x].assignedValue = cellNumber;
         if (count!=20) { //20 non-unique guesses
              makePuzzle(count);
@@ -161,7 +160,7 @@ class Grid { //<>// //<>//
     for (int i = 0; i<cells.length; i++) { //copy data from original grid to temp grid
       for (int j = 0; j<cells.length; j++) {
         temp.cells[i][j] = new Cell(new PVector(0, 0), 0);
-        temp.cells[i][j].ans = cells[i][j].ans;
+        temp.cells[i][j].assignedValue = cells[i][j].assignedValue;
       }
     }
 
@@ -170,6 +169,17 @@ class Grid { //<>// //<>//
     }
 
 
+    return true;
+  }
+  
+  boolean checkSolution() {
+    for(Cell[] cs : cells) {
+      for(Cell c : cs) {
+        if(c.ans != c.assignedValue) {
+          return false;
+        }
+      }
+    }
     return true;
   }
 }
