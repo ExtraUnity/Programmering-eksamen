@@ -30,7 +30,7 @@ void keyPressed() {
   if (tryParse(key)) {
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
-        if (c.selected) {
+        if (c.selected==1) {
           c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
           grid.filled = true;
           for (Cell[] row : grid.cells) {
@@ -40,25 +40,41 @@ void keyPressed() {
               }
             }
           }
-          if (grid.filled) {
-            if (grid.checkSolution()) {
-              println("Solved correctly");
-            } else {
-              println("Wrong solution");
-            }
-          }
         }
+        if (c.selected==2) {
+          c.notes.append(Integer.parseInt(str(key)));
+          println(c.notes);
+        }
+      }
+    }
+    if (grid.filled) {
+      if (grid.checkSolution()) {
+        println("Solved correctly");
+      } else {
+        println("Wrong solution");
       }
     }
   }
 }
 
 void mousePressed() {
-  for (Cell[] cs : grid.cells) {
-    for (Cell c : cs) {
-      c.selected = false;
-      if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
-        c.selected = true;
+  if (mouseButton == LEFT) {
+    for (Cell[] cs : grid.cells) {
+      for (Cell c : cs) {
+        c.selected = 0;
+        if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
+          c.selected = 1;
+        }
+      }
+    }
+  }
+  if (mouseButton == RIGHT) {
+    for (Cell[] cs : grid.cells) {
+      for (Cell c : cs) {
+        c.selected = 0;
+        if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
+          c.selected = 2;
+        }
       }
     }
   }

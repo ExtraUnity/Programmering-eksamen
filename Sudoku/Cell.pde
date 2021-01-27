@@ -3,17 +3,19 @@ class Cell {
   int ans;
   int assignedValue;
   int size;
-  boolean selected;
+  int selected;
+  IntList notes;
 
   Cell(PVector _pos, int _size) {
     pos = _pos;
     size = _size;
+    notes = new IntList();
   }
 
   void render() {
     //fill(255);
     //rect(pos.x,pos.y,size,size);
-    if (selected) {
+    if (selected==1) {
       fill(150, 100);
       rect(pos.x, pos.y, size-2, size-2);
     }
@@ -22,6 +24,11 @@ class Cell {
       textSize(size/2);
       textAlign(CENTER, CENTER);
       text(assignedValue, pos.x+size/2, pos.y+size/2);
+    }else{
+      for(int i: notes){
+        textSize(size/4);
+        text(i,pos.x+size*0.25+(i-1)%3*size*0.25,pos.y+size*0.25+(i-1)/3*size*0.25);
+      }
     }
   }
 }
