@@ -26,12 +26,11 @@ void draw() {
 }
 
 void keyPressed() {
-  if (tryParse(key)) {
+  if (tryParse(key)) {//if key is a number
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
         if (c.selected==1) {
           c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
-
           grid.filled = true;
           for (Cell[] row : grid.cells) { //check if grid is filled with numbers
             for (Cell cell : row) {
@@ -41,7 +40,7 @@ void keyPressed() {
             }
           }
         }
-        if (c.selected==2) {
+        if (c.selected==2) { //if user right clicks to take notes
           if (c.notes.hasValue(Integer.parseInt(str(key)))) {
             c.notes.removeValue(Integer.parseInt(str(key)));
           } else {
