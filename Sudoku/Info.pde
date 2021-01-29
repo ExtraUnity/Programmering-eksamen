@@ -13,6 +13,7 @@ class Info {
     strokeWeight(5);
     rect(x, y, sizeX, sizeY);
     fill(0);
+    textSize(40);
     text("Time: " + (int)((millis()-time)/1000), 850, 50);
   }
 }
