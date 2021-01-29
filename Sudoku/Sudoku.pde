@@ -39,7 +39,6 @@ void keyPressed() {
               }
             }
           }
-
         }
         if (c.selected==2) { //if user right clicks to take notes
           if (c.notes.hasValue(Integer.parseInt(str(key)))) {
@@ -48,6 +47,14 @@ void keyPressed() {
             c.notes.append(Integer.parseInt(str(key)));
           }
         }
+      }
+    }
+    if (grid.filled) {
+      if (grid.checkSolution()) { //verify the solution
+        infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
+        println("Solved correctly");
+      } else {
+        println("Wrong solution");
       }
     }
   }
