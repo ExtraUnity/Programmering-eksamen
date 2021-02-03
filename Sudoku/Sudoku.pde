@@ -54,6 +54,8 @@ void keyPressed() {
       if (grid.checkSolution()) { //verify the solution
         infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
         println("Solved correctly");
+        String[] highscore = {str(infoTable.completionTime)};
+        saveStrings("../data/highscore.txt", highscore); 
       } else {
         println("Wrong solution");
       }
