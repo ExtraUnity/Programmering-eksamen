@@ -172,4 +172,12 @@ class Grid { //<>// //<>//
     }
     return true;
   }
+
+  void giveHint(int y, int x) {
+    if (cells[y][x].assignedValue == 0) {
+      cells[y][x].assignedValue = cells[y][x].ans;
+    } else {
+      giveHint((int)random(0, 9),(int)random(0, 9));
+    }
+  }
 }
