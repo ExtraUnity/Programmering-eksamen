@@ -54,15 +54,18 @@ void keyPressed() {
       if (grid.checkSolution()) { //verify the solution
         infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
         println("Solved correctly");
-        if(int(loadStrings("/data/highscore.txt")[0])>infoTable.completionTime){
-          String[] highscore = {str(infoTable.completionTime)};
-          saveStrings("/data/highscore.txt", highscore); 
+        try {
+          if (int(loadStrings("/data/highscore.txt")[0])>infoTable.completionTime) {
+            String[] highscore = {str(infoTable.completionTime)};
+            saveStrings("/data/highscore.txt", highscore);
+          }
+        }catch(Exception e){
         }
       } else {
-        println("Wrong solution");
+          println("Wrong solution");
+        }
       }
     }
-  }
 
   if (key=='h') {//give hint
     if (cellSelected) {
