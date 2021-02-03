@@ -1,5 +1,6 @@
 Grid grid = new Grid(9, 9);
 PImage background;
+boolean cellSelected = false;
 Info infoTable;
 void setup() {
   size(1000, 700);
@@ -58,15 +59,32 @@ void keyPressed() {
       }
     }
   }
+
+  if (key=='h') {//give hint
+    if (cellSelected) {
+      for (int y = 0; y<grid.cells.length; y++) {
+        for (int x = 0; x<grid.cells.length; x++) {
+          if (grid.cells[y][x].selected==1) {
+            grid.giveHint(y, x);
+          }
+        }
+      }
+    } else {
+      grid.giveHint((int)random(0, 9), (int)random(0, 9));
+    }
+  }
 }
 
 void mousePressed() {
   if (mouseButton == LEFT) {
+    cellSelected = false;
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
         c.selected = 0;
+
         if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
           c.selected = 1;
+          cellSelected = true;
         }
       }
     }
