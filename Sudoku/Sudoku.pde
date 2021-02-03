@@ -1,6 +1,7 @@
 Grid grid = new Grid(9, 9);
 PImage background;
 boolean cellSelected = false;
+boolean solved;
 Info infoTable;
 void setup() {
   size(1000, 700);
@@ -56,6 +57,7 @@ void keyPressed() {
         println("Solved correctly");
         String[] highscore = {str(infoTable.completionTime)};
         saveStrings("../data/highscore.txt", highscore); 
+        solved = true;
       } else {
         println("Wrong solution");
       }
