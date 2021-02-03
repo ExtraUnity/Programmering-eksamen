@@ -15,5 +15,9 @@ class Info {
     fill(0);
     textSize(40);
     text("Time: " + (int)((millis()-time)/1000), 850, 50);
+    String highscore = loadStrings("/data/highscore.txt")[0];
+    if(!highscore.equals("")){
+      text("Highscore:" + highscore, 850,100);
+    }
   }
 }
