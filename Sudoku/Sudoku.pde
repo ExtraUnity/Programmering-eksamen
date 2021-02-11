@@ -57,11 +57,12 @@ void keyPressed() {
         println("Solved correctly");
         solved = true;
         try{
-          if(int(loadStrings("/data/highscore.txt")[0])>infoTable.completionTime){
+          if(int(loadStrings("/data/highscore.txt")[0])>infoTable.completionTime || int(loadStrings("/data/highscore.txt")[0]) == 0){
             String[] highscore = {str(infoTable.completionTime)};
             saveStrings("/data/highscore.txt", highscore); 
           }
         }catch(Exception e){
+          println(e);
         } 
       }else{
         println("Wrong solution");
