@@ -44,18 +44,7 @@ void keyPressed() {
     }
     if (grid.filled) {
       if (grid.checkSolution()) { //verify the solution
-        infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
-        println("Solved correctly");
-        solved = true;
-        try {
-          if (int(loadStrings("/data/highscore.txt")[0])>infoTable.completionTime || int(loadStrings("/data/highscore.txt")[0]) == 0) {
-            String[] highscore = {str(infoTable.completionTime)};
-            saveStrings("/data/highscore.txt", highscore);
-          }
-        }
-        catch(Exception e) {
-          println(e);
-        }
+        solved();
       } else {
         println("Wrong solution");
       }
@@ -77,6 +66,9 @@ void mousePressed() {
           }
         } else {
           grid.giveHint((int)random(0, 9), (int)random(0, 9));
+        }
+        if (grid.checkSolution()) {
+          solved();
         }
       }
       cellSelected = false;
@@ -133,11 +125,11 @@ void initializeScene() {
       println("No Solution exists");
     }
     grid.makePuzzle(0);
-    for(Cell[] cs : grid.cells){
-      for(Cell c : cs){
-       if(c.assignedValue != 0){
-         c.locked=true;
-       } 
+    for (Cell[] cs : grid.cells) {
+      for (Cell c : cs) {
+        if (c.assignedValue != 0) {
+          c.locked=true;
+        }
       }
     }
     infoTable.time = millis();
@@ -234,5 +226,20 @@ void renderScene() {
       }
     }
     break;
+  }
+}
+
+void solved() {
+  infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
+  println("Solved correctly");
+  solved = true;
+  try {
+    if (int(loadStrings("/data/highscore.txt")[0])>infoTable.completionTime || int(loadStrings("/data/highscore.txt")[0]) == 0) {
+      String[] highscore = {str(infoTable.completionTime)};
+      saveStrings("/data/highscore.txt", highscore);
+    }
+  }
+  catch(Exception e) {
+    println(e);
   }
 }
