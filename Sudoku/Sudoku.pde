@@ -9,12 +9,19 @@ void setup() {
   background.resize((int) (width-width*0.3), height);
   grid.generatePuzzle();
 
-  if (grid.solve(0, 0, 0, 0, 0)) {
+  if (grid.solve(0, 0, 0, 0, 0)) { //ensure a solution exists
     println("Success");
   } else {
     println("No Solution exists");
   }
   grid.makePuzzle(0);
+  for(Cell[] cs : grid.cells){
+    for(Cell c : cs){
+     if(c.assignedValue != 0){
+       c.locked=true;
+     } 
+    }
+  }
   infoTable = new Info();
   infoTable.time = millis();
 }
@@ -31,7 +38,7 @@ void keyPressed() {
   if (tryParse(key)) {//if key is a number
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
-        if (c.selected==1) {
+        if (c.selected==1 && !c.locked) {
           c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
           grid.filled = true;
           for (Cell[] row : grid.cells) { //check if grid is filled with numbers
