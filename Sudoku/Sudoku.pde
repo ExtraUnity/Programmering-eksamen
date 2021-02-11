@@ -22,7 +22,7 @@ void keyPressed() {
   if (tryParse(key)) {//if key is a number
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
-        if (c.selected==1) {
+        if (c.selected==1 && !c.locked) {
           c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
           grid.filled = true;
           for (Cell[] row : grid.cells) { //check if grid is filled with numbers
@@ -133,7 +133,13 @@ void initializeScene() {
       println("No Solution exists");
     }
     grid.makePuzzle(0);
-
+    for(Cell[] cs : grid.cells){
+      for(Cell c : cs){
+       if(c.assignedValue != 0){
+         c.locked=true;
+       } 
+      }
+    }
     infoTable.time = millis();
     buttons.add(new Button(800, 250, 100, 50, "Hint"));
     break;

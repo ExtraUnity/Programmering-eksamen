@@ -5,6 +5,7 @@ class Cell {
   int size;
   int selected;
   IntList notes;
+  boolean locked;
 
   Cell(PVector _pos, int _size) {
     pos = _pos;
