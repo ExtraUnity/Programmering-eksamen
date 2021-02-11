@@ -3,7 +3,8 @@ PImage background;
 boolean cellSelected = false;
 boolean solved;
 ArrayList<Button> buttons;
-int scene = 0;
+int scene = -1;
+boolean loading = false;
 Info infoTable;
 void setup() {
   size(1000, 700);
@@ -13,7 +14,7 @@ void setup() {
 
 
 void draw() {
-  println(scene);
+
   renderScene();
 }
 
@@ -113,7 +114,8 @@ boolean tryParse(char c) { //return true if c is a number
 }
 
 void initializeScene() {
-  switch(scene) {
+  int num = scene+1;
+  switch(num%2) {
   case 0:
     buttons.add(new Button(width/2-50, height/3*2, 100, 50, "Start"));
 
@@ -134,6 +136,8 @@ void initializeScene() {
     buttons.add(new Button(800, 250, 100, 50, "Hint"));
     break;
   }
+  scene = num;
+  loading = false;
 }
 
 void removeScene() {
@@ -156,12 +160,20 @@ void renderScene() {
     textAlign(CENTER, CENTER);
     fill(0);
     text("Welcome to Sudoku!", width/2, height/4);
+    if (loading) {
+      fill(0);
+      textSize(25);
+      text("Loading...", width/2, height/2);
+    }
     for (int i = 0; i<buttons.size(); i++) {
       buttons.get(i).render();
+
       if (buttons.get(i).pressed()) {
+
         removeScene();
-        scene=1;
-        initializeScene();
+        println("Loading puzzle...");
+        loading = true;
+        thread("initializeScene");
       }
     }
     break;
