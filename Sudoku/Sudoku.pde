@@ -71,6 +71,17 @@ void mousePressed() {
           solved();
         }
       }
+      for(Button b : buttons){
+        if(tryParseString(b.text)&&b.pressed()){
+          for (Cell[] cs : grid.cells) {
+            for (Cell c : cs) {
+              if(c.selected==1&&!c.locked){
+                c.assignedValue = Integer.parseInt(b.text);
+              }
+            }
+          }
+        }
+      }
       cellSelected = false;
       for (Cell[] cs : grid.cells) {
         for (Cell c : cs) {
@@ -98,6 +109,15 @@ void mousePressed() {
 boolean tryParse(char c) { //return true if c is a number
   try {
     Integer.parseInt(str(c));
+    return true;
+  }
+  catch(Exception E) {
+    return false;
+  }
+}
+boolean tryParseString(String s) { //return true if s is a number
+  try {
+    Integer.parseInt(s);
     return true;
   }
   catch(Exception E) {
@@ -134,6 +154,9 @@ void initializeScene() {
     }
     infoTable.time = millis();
     buttons.add(new Button(800, 250, 100, 50, "Hint"));
+    for(int i = 0; i < 9; i++){
+      buttons.add(new Button(750+70*(i%3),350+70*(i/3),50,50,str(i+1)));
+    }
     break;
 
   case 2:
