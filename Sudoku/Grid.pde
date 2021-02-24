@@ -1,4 +1,4 @@
-class Grid { //<>// //<>//
+class Grid { //<>//
   Cell[][] cells;
   int diff;
   boolean filled;
