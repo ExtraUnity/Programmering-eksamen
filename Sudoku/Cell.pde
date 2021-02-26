@@ -18,8 +18,6 @@ class Cell {
   }
 
   void render() {
-    //fill(255);
-    //rect(pos.x,pos.y,size,size);
     if (selected==1) {
       fill(150, 100); //shows the user that the cell is selected
       rect(pos.x, pos.y, size-2, size-2);
