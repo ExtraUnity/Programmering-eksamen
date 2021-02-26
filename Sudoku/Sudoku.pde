@@ -26,14 +26,7 @@ void keyPressed() {
         if (c.selected==1 && !c.locked) {
           if (!notes) {
             c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
-            grid.filled = true;
-            for (Cell[] row : grid.cells) { //check if grid is filled with numbers
-              for (Cell cell : row) {
-                if (cell.assignedValue == 0) {
-                  grid.filled = false;
-                }
-              }
-            }
+            grid.filled = grid.filled();
           } else {
             if (!c.notes.hasValue(Integer.parseInt(str(key)))) {
               c.notes.append(Integer.parseInt(str(key)));
@@ -80,8 +73,8 @@ void mousePressed() {
           solved();
         }
       }
-      for(Button b : buttons){ //detection of clicks on numbered buttons
-        if(tryParseString(b.text)&&b.pressed()){
+      for (Button b : buttons) { //detection of clicks on numbered buttons
+        if (tryParseString(b.text)&&b.pressed()) {
           for (Cell[] cs : grid.cells) {
             for (Cell c : cs) {
               if (c.selected==1&&!c.locked) {

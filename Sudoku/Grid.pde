@@ -174,11 +174,24 @@ class Grid { //<>//
   }
 
   void giveHint(int y, int x) {
-    if (cells[y][x].assignedValue == 0) {
-      cells[y][x].assignedValue = cells[y][x].ans;
-      cells[y][x].locked = true;
-    } else {
-      giveHint((int)random(0, 9), (int)random(0, 9));
+    if (!filled()) {
+      if (cells[y][x].assignedValue == 0) {
+        cells[y][x].assignedValue = cells[y][x].ans;
+        cells[y][x].locked = true;
+      } else {
+        giveHint((int)random(0, 9), (int)random(0, 9));
+      }
     }
+  }
+
+  boolean filled() {
+    for (Cell[] row : this.cells) { //check if grid is filled with numbers
+      for (Cell cell : row) {
+        if (cell.assignedValue == 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 }
