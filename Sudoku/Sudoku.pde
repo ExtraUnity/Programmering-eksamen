@@ -64,7 +64,7 @@ void keyPressed() {
 void mousePressed() {
   if (scene%3 == 1) {
     if (mouseButton == LEFT) {
-      if (buttons.get(0).pressed()) {
+      if (buttons.get(0).pressed()) { //when give hint pressed
         if (cellSelected) {
           for (int y = 0; y<grid.cells.length; y++) {
             for (int x = 0; x<grid.cells.length; x++) {
@@ -80,8 +80,8 @@ void mousePressed() {
           solved();
         }
       }
-      for (Button b : buttons) {
-        if (tryParseString(b.text)&&b.pressed()) {
+      for(Button b : buttons){ //detection of clicks on numbered buttons
+        if(tryParseString(b.text)&&b.pressed()){
           for (Cell[] cs : grid.cells) {
             for (Cell c : cs) {
               if (c.selected==1&&!c.locked) {
@@ -116,10 +116,9 @@ void mousePressed() {
         }
       }
       cellSelected = false;
-      for (Cell[] cs : grid.cells) {
+      for (Cell[] cs : grid.cells) { //detection of keyboard numberclicks.
         for (Cell c : cs) {
           c.selected = 0;
-
           if (c.mouseWithin()) {
             c.selected = 1;
             cellSelected = true;
@@ -127,7 +126,7 @@ void mousePressed() {
         }
       }
     }
-    if (mouseButton == RIGHT) {
+    if (mouseButton == RIGHT) { //detection of rightclicks for notes
       for (Cell[] cs : grid.cells) {
         for (Cell c : cs) {
           c.selected = 0;
@@ -161,12 +160,12 @@ boolean tryParseString(String s) { //return true if s is a number
 void initializeScene() {
   int num = scene+1;
   switch(num%3) {
-  case 0:
+  case 0: //makes starting scene
     buttons.add(new Button(width/2-50, height/3*2, 100, 50, "Start"));
 
     break;
 
-  case 1:
+  case 1: //makes main scene
     background = loadImage("data/Grid.png");
     background.resize((int) (width-width*0.3), height);
     grid = new Grid(9, 9);
@@ -193,7 +192,7 @@ void initializeScene() {
     buttons.add(new Button(800, 600, 100, 50, "Notes off", color(255, 0, 0)));
     break;
 
-  case 2:
+  case 2: //makes victory page
     buttons.add(new Button(width/2-60, height/3*2+51, 120, 45, "Main page"));
     break;
   }
@@ -202,7 +201,7 @@ void initializeScene() {
 }
 
 void removeScene() {
-  switch(scene%3) {
+  switch(scene%3) { //removes the active scene
   case 0:
     buttons.clear();
     break;
@@ -220,7 +219,7 @@ void removeScene() {
 
 void renderScene() {
   switch(scene%3) {
-  case 0:
+  case 0: //renders the initial scene 
     background(255);
     textSize(40);
     textAlign(CENTER, CENTER);
@@ -244,8 +243,7 @@ void renderScene() {
     }
     break;
 
-  case 1:
-
+  case 1: //renders the sudoku scene
     background(188);
     image(background, 0, 0);
     grid.render();
@@ -261,12 +259,11 @@ void renderScene() {
     }
     break;
 
-  case 2:
+  case 2: //renders the win scene
     background(255);
     fill(255);
     strokeWeight(5);
     rect(width/2-150, height/2-200, 300, 500);
-
     textAlign(CENTER, CENTER);
     fill(0);
     textSize(35);
@@ -276,7 +273,6 @@ void renderScene() {
     text("Highscore: " + int(loadStrings("/data/highscore.txt")[0]), width/2, height/2+30);
     for (int i = 0; i<buttons.size(); i++) {
       buttons.get(i).render(); 
-
       if (buttons.get(i).pressed()) {
         removeScene();
         initializeScene();
@@ -286,7 +282,7 @@ void renderScene() {
   }
 }
 
-void solved() {
+void solved() { //handles all the things for when the user solves the sudoku
   infoTable.completionTime = (int)((millis()-infoTable.time)/1000);
   println("Solved correctly");
   solved = true;
