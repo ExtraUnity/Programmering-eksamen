@@ -120,7 +120,7 @@ void mousePressed() {
         for (Cell c : cs) {
           c.selected = 0;
 
-          if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
+          if (c.mouseWithin()) {
             c.selected = 1;
             cellSelected = true;
           }
@@ -131,7 +131,7 @@ void mousePressed() {
       for (Cell[] cs : grid.cells) {
         for (Cell c : cs) {
           c.selected = 0;
-          if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
+          if (c.mouseWithin()) {
             c.selected = 2;
           }
         }

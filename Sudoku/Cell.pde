@@ -13,6 +13,10 @@ class Cell {
     notes = new IntList();
   }
 
+  boolean mouseWithin() {
+    return (mouseX > this.pos.x && mouseX < this.pos.x + this.size && mouseY > this.pos.y && mouseY < this.pos.y + this.size);
+  }
+
   void render() {
     //fill(255);
     //rect(pos.x,pos.y,size,size);
@@ -25,11 +29,11 @@ class Cell {
       textSize(size/2);
       textAlign(CENTER, CENTER);
       text(assignedValue, pos.x+size/2, pos.y+size/2);
-    }else{
-      for(int i: notes){
+    } else {
+      for (int i : notes) {
         fill(0);
         textSize(size/4);
-        text(i,pos.x+size*0.25+(i-1)%3*size*0.25,pos.y+size*0.25+(i-1)/3*size*0.25);
+        text(i, pos.x+size*0.25+(i-1)%3*size*0.25, pos.y+size*0.25+(i-1)/3*size*0.25);
       }
     }
   }

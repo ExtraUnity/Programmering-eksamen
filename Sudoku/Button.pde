@@ -8,9 +8,9 @@ class Button {
     this.sizeX = sizeX;
     this.sizeY = sizeY;
     this.text = text;
-    this.textColor = color(255,255,255);
+    this.textColor = color(255, 255, 255);
   }
-  
+
   Button(int x, int y, int sizeX, int sizeY, String text, color textColor) {
     pos = new PVector(x, y);
     this.sizeX = sizeX;
@@ -18,19 +18,17 @@ class Button {
     this.text = text;
     this.textColor = textColor;
   }
-  boolean pressed() {
 
-    if (mousePressed && mouseX > this.pos.x && mouseX < this.pos.x + this.sizeX && mouseY > this.pos.y && mouseY < this.pos.y + this.sizeY) {
-      return true;
-    }
-    return false;
+  boolean pressed() {
+    return (mousePressed && mouseWithin());
   }
 
   boolean hovered() {
-    if (!mousePressed && mouseX > this.pos.x && mouseX < this.pos.x + this.sizeX && mouseY > this.pos.y && mouseY < this.pos.y + this.sizeY) {
-      return true;
-    }
-    return false;
+    return (!mousePressed && mouseWithin());
+  }
+
+  boolean mouseWithin() { //mouse is within the rectangular button
+    return (mouseX > this.pos.x && mouseX < this.pos.x + this.sizeX && mouseY > this.pos.y && mouseY < this.pos.y + this.sizeY);
   }
 
   void render() {
@@ -42,7 +40,7 @@ class Button {
     rect(pos.x, pos.y, sizeX, sizeY);
     fill(textColor);
     textSize(20);
-    textAlign(CENTER,CENTER);
+    textAlign(CENTER, CENTER);
     text(text, pos.x+sizeX/2, pos.y+sizeY/2);
   }
 }
