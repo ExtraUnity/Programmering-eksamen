@@ -5,6 +5,7 @@ boolean solved;
 ArrayList<Button> buttons;
 int scene = -1;
 boolean loading = false;
+boolean notes = false;
 Info infoTable;
 void setup() {
   size(1000, 700);
@@ -23,13 +24,21 @@ void keyPressed() {
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
         if (c.selected==1 && !c.locked) {
-          c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
-          grid.filled = true;
-          for (Cell[] row : grid.cells) { //check if grid is filled with numbers
-            for (Cell cell : row) {
-              if (cell.assignedValue == 0) {
-                grid.filled = false;
+          if (!notes) {
+            c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
+            grid.filled = true;
+            for (Cell[] row : grid.cells) { //check if grid is filled with numbers
+              for (Cell cell : row) {
+                if (cell.assignedValue == 0) {
+                  grid.filled = false;
+                }
               }
+            }
+          } else {
+            if (!c.notes.hasValue(Integer.parseInt(str(key)))) {
+              c.notes.append(Integer.parseInt(str(key)));
+            } else {
+              c.notes.removeValue(Integer.parseInt(str(key)));
             }
           }
         }
@@ -75,10 +84,34 @@ void mousePressed() {
         if(tryParseString(b.text)&&b.pressed()){
           for (Cell[] cs : grid.cells) {
             for (Cell c : cs) {
-              if(c.selected==1&&!c.locked){
-                c.assignedValue = Integer.parseInt(b.text);
+              if (c.selected==1&&!c.locked) {
+                if (!notes) {
+                  c.assignedValue = Integer.parseInt(b.text);
+                } else {
+                  if (!c.notes.hasValue(Integer.parseInt(b.text))) {
+                    c.notes.append(Integer.parseInt(b.text));
+                  } else {
+                    c.notes.removeValue(Integer.parseInt(b.text));
+                  }
+                }
+              } else if (c.selected==2&&!c.locked) {
+                if (!c.notes.hasValue(Integer.parseInt(b.text))) {
+                  c.notes.append(Integer.parseInt(b.text));
+                } else {
+                  c.notes.removeValue(Integer.parseInt(b.text));
+                }
               }
             }
+          }
+        } else if (b.text.contains("Notes")&&b.pressed()) {
+          if (b.text.contains("off")) {
+            b.text = "Notes on";
+            b.textColor = color(0, 255, 0);
+            notes = true;
+          } else if (b.text.contains("on")) {
+            b.text = "Notes off";
+            b.textColor = color(255, 0, 0);
+            notes = false;
           }
         }
       }
@@ -86,7 +119,7 @@ void mousePressed() {
       for (Cell[] cs : grid.cells) { //detection of keyboard numberclicks.
         for (Cell c : cs) {
           c.selected = 0;
-          if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
+          if (c.mouseWithin()) {
             c.selected = 1;
             cellSelected = true;
           }
@@ -97,7 +130,7 @@ void mousePressed() {
       for (Cell[] cs : grid.cells) {
         for (Cell c : cs) {
           c.selected = 0;
-          if (mouseX > c.pos.x && mouseX < c.pos.x + c.size && mouseY > c.pos.y && mouseY < c.pos.y + c.size) {
+          if (c.mouseWithin()) {
             c.selected = 2;
           }
         }
@@ -153,9 +186,10 @@ void initializeScene() {
     }
     infoTable.time = millis();
     buttons.add(new Button(800, 250, 100, 50, "Hint"));
-    for(int i = 0; i < 9; i++){
-      buttons.add(new Button(750+70*(i%3),350+70*(i/3),50,50,str(i+1)));
+    for (int i = 0; i < 9; i++) {
+      buttons.add(new Button(750+70*(i%3), 350+70*(i/3), 50, 50, str(i+1)));
     }
+    buttons.add(new Button(800, 600, 100, 50, "Notes off", color(255, 0, 0)));
     break;
 
   case 2: //makes victory page

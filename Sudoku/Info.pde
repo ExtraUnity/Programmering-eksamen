@@ -14,13 +14,13 @@ class Info {
     rect(x, y, sizeX, sizeY);
     fill(0);
     textSize(40);
-    if (!solved) {
+    if (!solved) { //stops the timer, when sudoku is solved
       text("Time: " + (int)((millis()-time)/1000), 850, 50);
     } else {
       text("Time: " + completionTime, 850, 50);
     }
     String highscore = loadStrings("/data/highscore.txt")[0];
-    if (!highscore.equals("")) {
+    if (!highscore.equals("")) {//the default value in the highscore save file
       text("Highscore:" + highscore, 850, 100);
     }
   }

@@ -1,4 +1,4 @@
-class Grid { //<>// //<>//
+class Grid { //<>//
   Cell[][] cells;
   int diff;
   boolean filled;
@@ -178,7 +178,7 @@ class Grid { //<>// //<>//
       cells[y][x].assignedValue = cells[y][x].ans;
       cells[y][x].locked = true;
     } else {
-      giveHint((int)random(0, 9),(int)random(0, 9));
+      giveHint((int)random(0, 9), (int)random(0, 9));
     }
   }
 }
