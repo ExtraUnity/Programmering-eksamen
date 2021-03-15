@@ -20,7 +20,7 @@ void draw() {
 }
 
 void keyPressed() {
-  if (tryParse(key)) {//if key is a number
+  if (tryParseString(String.valueOf(key))){//if key is a number
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
         if (c.selected==1 && !c.locked) {
@@ -131,15 +131,7 @@ void mousePressed() {
     }
   }
 }
-boolean tryParse(char c) { //return true if c is a number
-  try {
-    Integer.parseInt(str(c));
-    return true;
-  }
-  catch(Exception E) {
-    return false;
-  }
-}
+
 boolean tryParseString(String s) { //return true if s is a number
   try {
     Integer.parseInt(s);
