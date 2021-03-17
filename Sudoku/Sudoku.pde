@@ -21,25 +21,26 @@ void draw() {
 
 void keyPressed() {
   if (tryParseString(String.valueOf(key))){//if key is a number
+    int pressedVal = Integer.parseInt(str(key));
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
         if (c.selected==1 && !c.locked) {
           if (!notes) {
-            c.assignedValue = Integer.parseInt(str(key)); //if user presses a number, update cell
+            c.assignedValue = pressedVal; //if user presses a number, update cell
             grid.filled = grid.filled();
           } else {
-            if (!c.notes.hasValue(Integer.parseInt(str(key)))) {
-              c.notes.append(Integer.parseInt(str(key)));
+            if (!c.notes.hasValue(pressedVal)) {
+              c.notes.append(pressedVal);
             } else {
-              c.notes.removeValue(Integer.parseInt(str(key)));
+              c.notes.removeValue(pressedVal);
             }
           }
         }
         if (c.selected==2) { //if user right clicks to take notes
-          if (c.notes.hasValue(Integer.parseInt(str(key)))) {
-            c.notes.removeValue(Integer.parseInt(str(key)));
+          if (c.notes.hasValue(pressedVal)) {
+            c.notes.removeValue(pressedVal);
           } else {
-            c.notes.append(Integer.parseInt(str(key)));
+            c.notes.append(pressedVal);
           }
         }
       }
