@@ -1,10 +1,9 @@
 class Grid { //<>//
   Cell[][] cells;
-  int diff;
   boolean filled;
-  Grid(int size, int _diff) {
+  
+  Grid(int size) {
     cells = new Cell[size][size];
-    diff = _diff;
   }
 
   void render() {
@@ -145,7 +144,7 @@ class Grid { //<>//
   }
 
   boolean checkUnique(int x, int y, int num) { //check if there is only one solution to the grid
-    Grid temp = new Grid(9, 9); //new temporary grid, so original grid doesn't get changed
+    Grid temp = new Grid(9); //new temporary grid, so original grid doesn't get changed
 
     for (int i = 0; i<cells.length; i++) { //copy data from original grid to temp grid
       for (int j = 0; j<cells.length; j++) {

@@ -154,7 +154,7 @@ void initializeScene() {
   case 1: //makes main scene
     background = loadImage("data/Grid.png");
     background.resize((int) (width-width*0.3), height);
-    grid = new Grid(9, 9);
+    grid = new Grid(9);
     infoTable = new Info();
     grid.generatePuzzle();
     if (grid.solve(0, 0, 0, 0, 0)) {
@@ -194,7 +194,7 @@ void removeScene() {
 
   case 1:
     buttons.clear();
-    grid = new Grid(9, 9);
+    grid = new Grid(9);
     break;
 
   case 2:
