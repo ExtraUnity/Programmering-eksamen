@@ -4,11 +4,8 @@ class Button {
   String text;
   color textColor;
   Button(int x, int y, int sizeX, int sizeY, String text) {
-    pos = new PVector(x, y);
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
-    this.text = text;
-    this.textColor = color(255, 255, 255);
+    this(x, y, sizeX, sizeY, text, color(255,255,255));
+
   }
 
   Button(int x, int y, int sizeX, int sizeY, String text, color textColor) {

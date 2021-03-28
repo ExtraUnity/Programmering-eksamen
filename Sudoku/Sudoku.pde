@@ -20,7 +20,7 @@ void draw() {
 }
 
 void keyPressed() {
-  if (tryParseString(String.valueOf(key))){//if key is a number
+  if (tryParseString(String.valueOf(key))) {//if key is a number
     int pressedVal = Integer.parseInt(str(key));
     for (Cell[] cs : grid.cells) {
       for (Cell c : cs) {
@@ -29,7 +29,7 @@ void keyPressed() {
             c.assignedValue = pressedVal; //if user presses a number, update cell
             grid.filled = grid.filled();
           } else {
-            if (!c.notes.hasValue(pressedVal)) {
+            if (!c.notes.hasValue(pressedVal) && pressedVal != 0) {
               c.notes.append(pressedVal);
             } else {
               c.notes.removeValue(pressedVal);
@@ -171,11 +171,13 @@ void initializeScene() {
       }
     }
     infoTable.time = millis();
-    buttons.add(new Button(800, 250, 100, 50, "Hint"));
+    buttons.add(new Button(800, 200, 100, 50, "Hint"));
     for (int i = 0; i < 9; i++) {
-      buttons.add(new Button(750+70*(i%3), 350+70*(i/3), 50, 50, str(i+1)));
+      buttons.add(new Button(750+70*(i%3), 300+70*(i/3), 50, 50, str(i+1)));
     }
-    buttons.add(new Button(800, 600, 100, 50, "Notes off", color(255, 0, 0)));
+    buttons.add(new Button(795, 510, 100, 50, "Clear cell"));
+    buttons.add(new Button(795, 580, 100, 50, "Notes off", color(255, 0, 0)));
+
     break;
 
   case 2: //makes victory page
