@@ -15,119 +15,101 @@ void setup() {
 
 
 void draw() {
-
   renderScene();
 }
 
 void keyPressed() {
-  if (tryParseString(String.valueOf(key))) {//if key is a number
-    int pressedVal = Integer.parseInt(str(key));
-    for (Cell[] cs : grid.cells) {
-      for (Cell c : cs) {
-        if (c.selected==1 && !c.locked) {
-          if (!notes) {
-            c.assignedValue = pressedVal; //if user presses a number, update cell
-            grid.filled = grid.filled();
-          } else {
-            if (!c.notes.hasValue(pressedVal) && pressedVal != 0) {
-              c.notes.append(pressedVal);
-            } else {
-              c.notes.removeValue(pressedVal);
-            }
-          }
-        }
-        if (c.selected==2) { //if user right clicks to take notes
-          if (c.notes.hasValue(pressedVal)) {
-            c.notes.removeValue(pressedVal);
-          } else {
-            c.notes.append(pressedVal);
-          }
+  if (!tryParseString(String.valueOf(key))) return; //if key is not a number
+
+  int pressedVal = Integer.parseInt(str(key));
+
+  for (Cell[] cs : grid.cells) { //Insert number in correct cell
+    for (Cell c : cs) {
+      if (c.selected && !c.locked) {
+        if (!notes) {
+          c.assignedValue = pressedVal; //if user presses a number, update cell
+          grid.filled = grid.filled();
+        } else {
+          if (!c.notes.hasValue(pressedVal) && pressedVal != 0) c.notes.append(pressedVal);
+          else c.notes.removeValue(pressedVal);
         }
       }
     }
-    if (grid.filled) {
-      if (grid.checkSolution()) { //verify the solution
-        solved();
-      } else {
-        println("Wrong solution");
-      }
-    }
+  }
+
+  if (grid.filled) {
+    if (grid.checkSolution()) solved(); //verify the solution
+    else println("Wrong solution");
   }
 }
 
 void mousePressed() {
-  if (scene%3 == 1) {
-    if (mouseButton == LEFT) {
-      if (buttons.get(0).pressed()) { //when give hint pressed
-        if (cellSelected) {
-          for (int y = 0; y<grid.cells.length; y++) {
-            for (int x = 0; x<grid.cells.length; x++) {
-              if (grid.cells[y][x].selected==1) {
-                grid.giveHint(y, x);
-              }
-            }
-          }
-        } else {
-          grid.giveHint((int)random(0, 9), (int)random(0, 9));
-        }
-        if (grid.checkSolution()) {
-          solved();
-        }
-      }
-      for (Button b : buttons) { //detection of clicks on numbered buttons
-        if (tryParseString(b.text)&&b.pressed()) {
-          for (Cell[] cs : grid.cells) {
-            for (Cell c : cs) {
-              if (c.selected==1&&!c.locked) {
-                if (!notes) {
-                  c.assignedValue = Integer.parseInt(b.text);
-                } else {
-                  if (!c.notes.hasValue(Integer.parseInt(b.text))) {
-                    c.notes.append(Integer.parseInt(b.text));
-                  } else {
-                    c.notes.removeValue(Integer.parseInt(b.text));
-                  }
-                }
-              } else if (c.selected==2&&!c.locked) {
-                if (!c.notes.hasValue(Integer.parseInt(b.text))) {
-                  c.notes.append(Integer.parseInt(b.text));
-                } else {
-                  c.notes.removeValue(Integer.parseInt(b.text));
-                }
-              }
-            }
-          }
-        } else if (b.text.contains("Notes")&&b.pressed()) {
-          if (b.text.contains("off")) {
-            b.text = "Notes on";
-            b.textColor = color(0, 255, 0);
-            notes = true;
-          } else if (b.text.contains("on")) {
-            b.text = "Notes off";
-            b.textColor = color(255, 0, 0);
-            notes = false;
-          }
-        }
-      }
-      cellSelected = false;
-      for (Cell[] cs : grid.cells) { //detection of keyboard numberclicks.
-        for (Cell c : cs) {
-          c.selected = 0;
-          if (c.mouseWithin()) {
-            c.selected = 1;
-            cellSelected = true;
-          }
-        }
-      }
-    }
-    if (mouseButton == RIGHT) { //detection of rightclicks for notes
+  if (scene%3 != 1) return; 
+  if (mouseButton != LEFT) return;
+
+  for (Button b : buttons) { //detection of clicks on numbered buttons
+    if (tryParseString(b.text)&&b.pressed()) { //if the buttons purely contains numbers, the number buttons
       for (Cell[] cs : grid.cells) {
         for (Cell c : cs) {
-          c.selected = 0;
-          if (c.mouseWithin()) {
-            c.selected = 2;
+          if (c.selected&&!c.locked) {
+
+            if (!notes) c.assignedValue = Integer.parseInt(b.text);
+            else if (!c.notes.hasValue(Integer.parseInt(b.text))) c.notes.append(Integer.parseInt(b.text));
+            else c.notes.removeValue(Integer.parseInt(b.text));
           }
         }
+      }
+    } else if (b.text.contains("Notes")&&b.pressed()) {
+      if (b.text.contains("off")) {
+        b.text = "Notes on";
+        b.textColor = color(0, 255, 0);
+        notes = true;
+      } else {
+        b.text = "Notes off";
+        b.textColor = color(255, 0, 0);
+        notes = false;
+      }
+    } else if (b.text.contains("Clear")&&b.pressed()) {
+      if (b.text.contains("All")) {
+        for (Cell[] cs : grid.cells) {
+          for (Cell c : cs) {
+            c.notes.clear();
+            if (!c.locked) c.assignedValue = 0;
+          }
+        }
+      } else {
+        for (Cell[] cs : grid.cells) {
+          for (Cell c : cs) {
+            if (c.selected&&!c.locked) {
+              c.assignedValue = 0;
+              c.notes.clear();
+            }
+          }
+        }
+      }
+    } else if (b.text.contains("Hint")&&b.pressed()) { //when give hint pressed
+      if (cellSelected) {
+        for (int y = 0; y<grid.cells.length; y++) {
+          for (int x = 0; x<grid.cells.length; x++) {
+            if (grid.cells[y][x].selected) {
+              grid.giveHint(y, x);
+            }
+          }
+        }
+      } else {
+        grid.giveHint((int)random(0, 9), (int)random(0, 9));
+      }
+      if (grid.checkSolution()) solved();
+    }
+  }
+
+  cellSelected = false;
+  for (Cell[] cs : grid.cells) { //detection of clicking a cell.
+    for (Cell c : cs) {
+      c.selected = false;
+      if (c.mouseWithin()) {
+        c.selected = true;
+        cellSelected = true;
       }
     }
   }
@@ -152,7 +134,7 @@ void initializeScene() {
     break;
 
   case 1: //makes main scene
-    background = loadImage("data/Grid.png");
+    background = loadImage("Grid.png");
     background.resize((int) (width-width*0.3), height);
     grid = new Grid(9);
     infoTable = new Info();
@@ -175,7 +157,8 @@ void initializeScene() {
     for (int i = 0; i < 9; i++) {
       buttons.add(new Button(750+70*(i%3), 300+70*(i/3), 50, 50, str(i+1)));
     }
-    buttons.add(new Button(795, 510, 100, 50, "Clear cell"));
+    buttons.add(new Button(740, 510, 100, 50, "Clear cell"));
+    buttons.add(new Button(850, 510, 100, 50, "Clear All"));
     buttons.add(new Button(795, 580, 100, 50, "Notes off", color(255, 0, 0)));
 
     break;
@@ -222,11 +205,10 @@ void renderScene() {
       buttons.get(i).render();
 
       if (buttons.get(i).pressed()) {
-
         removeScene();
         println("Loading puzzle...");
         loading = true;
-        thread("initializeScene");
+        thread("initializeScene"); //creates a thread for generating the puzzle
       }
     }
     break;
@@ -277,10 +259,9 @@ void solved() { //handles all the things for when the user solves the sudoku
   try {
     if (int(loadStrings("highscore.txt")[0])>infoTable.completionTime || int(loadStrings("highscore.txt")[0]) == 0) {
       String[] highscore = {str(infoTable.completionTime)};
-      saveStrings("highscore.txt", highscore);
+      saveStrings("data/highscore.txt", highscore);
     }
   }
   catch(Exception e) {
-    println(e);
   }
 }

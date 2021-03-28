@@ -3,7 +3,7 @@ class Cell {
   int ans;
   int assignedValue;
   int size;
-  int selected;
+  boolean selected;
   IntList notes;
   boolean locked;
 
@@ -18,7 +18,7 @@ class Cell {
   }
 
   void render() {
-    if (selected==1) {
+    if (selected) {
       fill(150, 100); //shows the user that the cell is selected
       rect(pos.x, pos.y, size-2, size-2);
     }

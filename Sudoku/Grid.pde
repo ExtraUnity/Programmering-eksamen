@@ -1,7 +1,7 @@
 class Grid { //<>//
   Cell[][] cells;
   boolean filled;
-  
+
   Grid(int size) {
     cells = new Cell[size][size];
   }
@@ -21,7 +21,7 @@ class Grid { //<>//
       }
     }
 
-    for (int i = 0; i<3; i++) { //The solver needs something to solve
+    for (int i = 0; i<3; i++) { //The solver needs something to solve so we set the first nine cells
       for (int j = 0; j<3; j++) {
         assignCell(i, j);
       }
@@ -44,53 +44,38 @@ class Grid { //<>//
 
   boolean isNumberLegal(int num, PVector pos) { //checks if number breaks the rules
     for (int i = 0; i<cells.length; i++) { //check row
-      if (i!=pos.x) {
-        if (cells[i][(int)pos.y].assignedValue == num) {
-          return false;
-        }
-      }
+      if (i!=pos.x && cells[i][(int)pos.y].assignedValue == num) return false;
     }
 
     for (int i = 0; i<cells.length; i++) { //check column
-      if (i!=pos.y) {
-        if (cells[(int)pos.x][i].assignedValue == num) {
-          return false;
-        }
-      }
+      if (i!=pos.y && cells[(int)pos.x][i].assignedValue == num) return false;
     }
 
     int startX = (int)pos.x/3 * 3;
     int startY = (int)pos.y/3 * 3;
     for (int i = startX; i<startX + 3; i++) { //check 3x3 grid
       for (int j = startY; j<startY + 3; j++) {
-        if (!(i == pos.x && j==pos.y)) {
-          if (cells[i][j].assignedValue == num) {
-            return false;
-          }
-        }
+        if (!(i == pos.x && j==pos.y) && cells[i][j].assignedValue == num) return false;
       }
     }
+    
     return true; //number is legal
   }
 
 
   boolean solve(int row, int col, int x, int y, int num) { //solves the grid recursively using simple backtracking
-    if (row == cells.length - 1 && col == cells.length) { //Last cell has been checked
-      return true;
-    }
+    if (row == cells.length - 1 && col == cells.length) return true;//Last cell has been checked
+
 
     if (col == cells.length) { //last cell in row
       row++;
       col = 0;
     }
 
-    if (cells[row][col].assignedValue != 0) { //Already solved - the cell was one of the given hints
-      return solve(row, col + 1, x, y, num); //go to next cell
-    }
+    if (cells[row][col].assignedValue != 0) return solve(row, col + 1, x, y, num); //Already solved - the cell was one of the given hints
+
     ArrayList<Integer> nums = new ArrayList();
-    for (int i = 0; i < 10; i++) { //the guessss the computer can make for a cell
-      nums.add(i);
-    }
+    for (int i = 0; i < 10; i++) nums.add(i); //the guessss the computer can make for a cell
 
     Integer num2;
     if (row == y && col == x) { //we reached the cell that contained the number
@@ -111,9 +96,7 @@ class Grid { //<>//
         cells[row][col].ans = nums.get(i);
         cells[row][col].assignedValue = nums.get(i);
 
-        if (solve(row, col + 1, x, y, num)) { //go to next cell
-          return true;
-        }
+        if (solve(row, col + 1, x, y, num)) return true; //go to next cell
       }
       cells[row][col].assignedValue = 0;
       cells[row][col].ans = 0; //Change back to zero - solution wasn't possible
@@ -134,9 +117,7 @@ class Grid { //<>//
         count++;
         cells[y][x].ans = cellNumber;
         cells[y][x].assignedValue = cellNumber;
-        if (count!=20) { //20 non-unique guesses
-          makePuzzle(count);
-        }
+        if (count!=20)  makePuzzle(count);//20 non-unique guesses
       }
     } else {
       makePuzzle(count);
@@ -153,10 +134,7 @@ class Grid { //<>//
       }
     }
 
-    if (temp.solve(0, 0, x, y, num)) { //if it can be solved without the number that was there before
-      return false;
-    }
-
+    if (temp.solve(0, 0, x, y, num)) return false; //if it can be solved without the number that was there before
 
     return true;
   }
@@ -164,33 +142,30 @@ class Grid { //<>//
   boolean checkSolution() { //return false if answer does not correlate with assigned value
     for (Cell[] cs : cells) {
       for (Cell c : cs) {
-        if (c.ans != c.assignedValue) {
-          return false;
-        }
+        if (c.ans != c.assignedValue) return false;
       }
     }
     return true;
   }
 
   void giveHint(int y, int x) {
-    if (!filled()) {
-      if (cells[y][x].assignedValue == 0) {
-        cells[y][x].assignedValue = cells[y][x].ans;
-        cells[y][x].locked = true;
-      } else {
-        giveHint((int)random(0, 9), (int)random(0, 9));
-      }
+    if (filled()) return;
+
+    if (cells[y][x].assignedValue == 0) {
+      cells[y][x].assignedValue = cells[y][x].ans;
+      cells[y][x].locked = true;
+    } else {
+      giveHint((int)random(0, 9), (int)random(0, 9));
     }
   }
 
   boolean filled() {
     for (Cell[] row : this.cells) { //check if grid is filled with numbers
       for (Cell cell : row) {
-        if (cell.assignedValue == 0) {
-          return false;
-        }
+        if (cell.assignedValue == 0) return false;
       }
     }
+
     return true;
   }
 }
