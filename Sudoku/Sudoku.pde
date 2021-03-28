@@ -256,7 +256,7 @@ void renderScene() {
     text("YOU DID IT!", width/2, height/2-100);
     textSize(20);
     text("Time: " + infoTable.completionTime, width/2, height/2);
-    text("Highscore: " + int(loadStrings("/data/highscore.txt")[0]), width/2, height/2+30);
+    text("Highscore: " + int(loadStrings("highscore.txt")[0]), width/2, height/2+30);
     for (int i = 0; i<buttons.size(); i++) {
       buttons.get(i).render(); 
       if (buttons.get(i).pressed()) {
@@ -273,9 +273,9 @@ void solved() { //handles all the things for when the user solves the sudoku
   println("Solved correctly");
   solved = true;
   try {
-    if (int(loadStrings("/data/highscore.txt")[0])>infoTable.completionTime || int(loadStrings("/data/highscore.txt")[0]) == 0) {
+    if (int(loadStrings("highscore.txt")[0])>infoTable.completionTime || int(loadStrings("highscore.txt")[0]) == 0) {
       String[] highscore = {str(infoTable.completionTime)};
-      saveStrings("/data/highscore.txt", highscore);
+      saveStrings("highscore.txt", highscore);
     }
   }
   catch(Exception e) {

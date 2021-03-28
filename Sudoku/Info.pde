@@ -19,7 +19,7 @@ class Info {
     } else {
       text("Time: " + completionTime, 850, 50);
     }
-    String highscore = loadStrings("/data/highscore.txt")[0];
+    String highscore = loadStrings("highscore.txt")[0];
     if (!highscore.equals("")) {//the default value in the highscore save file
       text("Highscore:" + highscore, 850, 100);
     }
