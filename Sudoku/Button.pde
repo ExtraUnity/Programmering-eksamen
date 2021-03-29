@@ -30,14 +30,15 @@ class Button {
 
   void render() {
     fill(80);
-    if (hovered()) {
-      fill(120);
-    } 
+    if (hovered()) fill(120); 
     strokeWeight(1);
+    
     rect(pos.x, pos.y, sizeX, sizeY);
+    
     fill(textColor);
     textSize(20);
     textAlign(CENTER, CENTER);
+    
     text(text, pos.x+sizeX/2, pos.y+sizeY/2);
   }
 }
