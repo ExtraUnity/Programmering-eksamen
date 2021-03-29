@@ -45,10 +45,10 @@ void keyPressed() {
 
 void mousePressed() {
   if (scene%3 != 1) return; 
-  if (mouseButton != LEFT) return;
+  if (mouseButton != LEFT) return; 
 
   for (Button b : buttons) { //detection of clicks on numbered buttons
-    if (tryParseString(b.text)&&b.pressed()) { //if the buttons purely contains numbers, the number buttons
+    if (tryParseString(b.text)&&b.pressed()) { //if the buttons purely contains numbers aka the number buttons
       for (Cell[] cs : grid.cells) {
         for (Cell c : cs) {
           if (c.selected&&!c.locked) {
@@ -59,7 +59,7 @@ void mousePressed() {
           }
         }
       }
-    } else if (b.text.contains("Notes")&&b.pressed()) {
+    } else if (b.text.contains("Notes")&&b.pressed()) { //turn notes on or off
       if (b.text.contains("off")) {
         b.text = "Notes on";
         b.textColor = color(0, 255, 0);
@@ -69,16 +69,16 @@ void mousePressed() {
         b.textColor = color(255, 0, 0);
         notes = false;
       }
-    } else if (b.text.contains("Clear")&&b.pressed()) {
-      if (b.text.contains("All")) {
+    } else if (b.text.contains("Clear")&&b.pressed()) { //clear cells
+      if (b.text.contains("All")) { //all cells
         for (Cell[] cs : grid.cells) {
           for (Cell c : cs) {
             c.notes.clear();
             if (!c.locked) c.assignedValue = 0;
           }
         }
-      } else {
-        for (Cell[] cs : grid.cells) {
+      } else {//just the selected cell
+        for (Cell[] cs : grid.cells) { 
           for (Cell c : cs) {
             if (c.selected&&!c.locked) {
               c.assignedValue = 0;
