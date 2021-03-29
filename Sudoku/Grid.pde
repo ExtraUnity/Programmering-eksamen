@@ -58,7 +58,7 @@ class Grid { //<>//
         if (!(i == pos.x && j==pos.y) && cells[i][j].assignedValue == num) return false;
       }
     }
-    
+
     return true; //number is legal
   }
 
@@ -108,7 +108,8 @@ class Grid { //<>//
   void makePuzzle(int count) { //Recursively removes cells from grid
     int x = (int) random(0, 9); //select random cell
     int y = (int) random(0, 9);
-    if (cells[y][x].assignedValue != 0) { //if not already removed
+    if (cells[y][x].assignedValue == 0) makePuzzle(count); //if already removed, pick another random location
+    else {
       int cellNumber = cells[y][x].ans; //save cell number before removing
       cells[y][x].assignedValue = 0;
       if (checkUnique(x, y, cellNumber)) {
@@ -117,11 +118,10 @@ class Grid { //<>//
         count++;
         cells[y][x].ans = cellNumber;
         cells[y][x].assignedValue = cellNumber;
-        if (count!=20)  makePuzzle(count);//20 non-unique guesses
+        if (count!=20) makePuzzle(count);//20 non-unique guesses
       }
-    } else {
-      makePuzzle(count);
     }
+    
   }
 
   boolean checkUnique(int x, int y, int num) { //check if there is only one solution to the grid
