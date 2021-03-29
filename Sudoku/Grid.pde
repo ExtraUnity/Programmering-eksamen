@@ -66,7 +66,6 @@ class Grid { //<>//
   boolean solve(int row, int col, int x, int y, int num) { //solves the grid recursively using simple backtracking
     if (row == cells.length - 1 && col == cells.length) return true;//Last cell has been checked
 
-
     if (col == cells.length) { //last cell in row
       row++;
       col = 0;
